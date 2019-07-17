@@ -14,8 +14,6 @@ pub struct GeoTag {
     pub url_num2: u64,
 }
 
-
-
 impl GeoTag {
     pub fn to_csv_row(&self, id: u64) -> String {
         format!(
