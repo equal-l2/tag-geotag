@@ -6,27 +6,31 @@ pub const URL_SUFFIX: &str = ".jpg";
 
 #[derive(Debug, Clone)]
 pub struct GeoTag {
-    pub time: NaiveDateTime,
+    pub time: i32,
     pub latitude: f64,
     pub longitude: f64,
-    pub serv_num: char,
-    pub url_part: String,
+    pub domain_num: char,
+    pub url_num1: u16,
+    pub url_num2: u64,
 }
 
-impl std::fmt::Display for GeoTag {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "\"{}\",{},{},{}{}{}{}{}",
-            self.time,
+
+
+impl GeoTag {
+    pub fn to_csv_row(&self, id: u64) -> String {
+        format!(
+            "{},\"{}\",{},{},{}{}{}{}/{}_{:010x}{}\n",
+            id,
+            NaiveDateTime::from_timestamp(self.time as i64, 0),
             self.latitude,
             self.longitude,
             URL_PREFIX,
-            self.serv_num,
+            self.domain_num,
             URL_COMMON,
-            self.url_part,
+            self.url_num1,
+            id,
+            self.url_num2,
             URL_SUFFIX
         )
     }
 }
-
