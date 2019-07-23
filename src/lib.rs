@@ -18,18 +18,19 @@ pub struct GeoTag {
 impl GeoTag {
     pub fn to_csv_row(&self, id: u64) -> String {
         format!(
-            "{},\"{}\",{},{},{}{}{}{}/{}_{:010x}{}\n",
+            "{},\"{}\",{},{},{}\n",
             id,
             NaiveDateTime::from_timestamp(self.time as i64, 0),
             self.latitude,
             self.longitude,
-            URL_PREFIX,
-            self.domain_num,
-            URL_COMMON,
-            self.url_num1,
-            id,
-            self.url_num2,
-            URL_SUFFIX
+            self.get_url(id)
+        )
+    }
+
+    pub fn get_url(&self, id: u64) -> String {
+        format!(
+            "{}{}{}{}/{}_{:010x}{}",
+            URL_PREFIX, self.domain_num, URL_COMMON, self.url_num1, id, self.url_num2, URL_SUFFIX
         )
     }
 
