@@ -36,26 +36,26 @@ impl GeoTag {
 
     pub fn from_str_to_geotag(s: &str) -> Fallible<(u64, GeoTag)> {
         let mut s = s.split(',');
-        let id = s.next().ok_or(failure::err_msg("Id missing"))?.parse()?;
-        let time = s.next().ok_or(failure::err_msg("Time missing"))?.parse()?;
+        let id = s.next().ok_or_else(|| failure::err_msg("Id missing"))?.parse()?;
+        let time = s.next().ok_or_else(|| failure::err_msg("Time missing"))?.parse()?;
         let latitude = s
             .next()
-            .ok_or(failure::err_msg("Latitude missing"))?
+            .ok_or_else(|| failure::err_msg("Latitude missing"))?
             .parse()?;
         let longitude = s
             .next()
-            .ok_or(failure::err_msg("Longitude missing"))?
+            .ok_or_else(|| failure::err_msg("Longitude missing"))?
             .parse()?;
         let domain_num = s
             .next()
-            .ok_or(failure::err_msg("Serv_num missing"))?
+            .ok_or_else(|| failure::err_msg("Serv_num missing"))?
             .parse()?;
         let url_num1 = s
             .next()
-            .ok_or(failure::err_msg("Url_num1 missing"))?
+            .ok_or_else(|| failure::err_msg("Url_num1 missing"))?
             .parse()?;
         let url_num2 =
-            u64::from_str_radix(s.next().ok_or(failure::err_msg("Url_num2 missing"))?, 16)?;
+            u64::from_str_radix(s.next().ok_or_else(|| failure::err_msg("Url_num2 missing"))?, 16)?;
 
         Ok((
             id,
