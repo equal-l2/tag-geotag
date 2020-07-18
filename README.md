@@ -1,1 +1,2 @@
-data structure for geotag.csv ( from https://exp1.inf.shizuoka.ac.jp/最終課題の詳細 )
+# tag-geotag
+情報科学実験I超高性能化課題のためのデータ構造  
