@@ -1,5 +1,5 @@
+use anyhow::{anyhow, Result};
 use chrono::NaiveDateTime;
-use failure::Fallible;
 
 pub const URL_PREFIX: &str = "http://farm";
 pub const URL_COMMON: &str = ".static.flickr.com/";
@@ -34,28 +34,28 @@ impl GeoTag {
         )
     }
 
-    pub fn from_str_to_geotag(s: &str) -> Fallible<(u64, GeoTag)> {
+    pub fn from_str_to_geotag(s: &str) -> Result<(u64, GeoTag)> {
         let mut s = s.split(',');
-        let id = s.next().ok_or_else(|| failure::err_msg("Id missing"))?.parse()?;
-        let time = s.next().ok_or_else(|| failure::err_msg("Time missing"))?.parse()?;
+        let id = s.next().ok_or_else(|| anyhow!("Id missing"))?.parse()?;
+        let time = s.next().ok_or_else(|| anyhow!("Time missing"))?.parse()?;
         let latitude = s
             .next()
-            .ok_or_else(|| failure::err_msg("Latitude missing"))?
+            .ok_or_else(|| anyhow!("Latitude missing"))?
             .parse()?;
         let longitude = s
             .next()
-            .ok_or_else(|| failure::err_msg("Longitude missing"))?
+            .ok_or_else(|| anyhow!("Longitude missing"))?
             .parse()?;
         let domain_num = s
             .next()
-            .ok_or_else(|| failure::err_msg("Serv_num missing"))?
+            .ok_or_else(|| anyhow!("Serv_num missing"))?
             .parse()?;
         let url_num1 = s
             .next()
-            .ok_or_else(|| failure::err_msg("Url_num1 missing"))?
+            .ok_or_else(|| anyhow!("Url_num1 missing"))?
             .parse()?;
         let url_num2 =
-            u64::from_str_radix(s.next().ok_or_else(|| failure::err_msg("Url_num2 missing"))?, 16)?;
+            u64::from_str_radix(s.next().ok_or_else(|| anyhow!("Url_num2 missing"))?, 16)?;
 
         Ok((
             id,
