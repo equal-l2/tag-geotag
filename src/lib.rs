@@ -1,5 +1,5 @@
 use anyhow::{anyhow, Result};
-use chrono::NaiveDateTime;
+use time::OffsetDateTime;
 
 pub const URL_PREFIX: &str = "http://farm";
 pub const URL_COMMON: &str = ".static.flickr.com/";
@@ -20,7 +20,7 @@ impl GeoTag {
         format!(
             "{},\"{}\",{},{},{}\n",
             id,
-            NaiveDateTime::from_timestamp(self.time as i64, 0),
+            OffsetDateTime::from_unix_timestamp(self.time as i64).expect("timestamp is out of range"),
             self.latitude,
             self.longitude,
             self.get_url(id)
